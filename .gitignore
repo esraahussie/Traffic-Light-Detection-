@@ -1,0 +1,9 @@
+venv/
+Traffic-lights-2/
+runs/
+*.pyc
+__pycache__/
+.ipynb_checkpoints/
+*.zip
+download_dataset.py
+fix_yaml.py
