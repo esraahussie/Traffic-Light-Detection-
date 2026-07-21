@@ -6,7 +6,6 @@ import cv2
 import tempfile
 import os
 
-
 @st.cache_resource
 def load_model():
     return YOLO(r"model_export\best.pt")
@@ -26,7 +25,6 @@ if input_type == "Image":
 
     if uploaded_file is not None:
         image = Image.open(uploaded_file).convert("RGB")
-
         original_col, result_col = st.columns(2)
 
         with original_col:
@@ -35,7 +33,7 @@ if input_type == "Image":
 
         with result_col:
             st.header("Detected")
-            results = model.predict(np.array(image), conf=thresh)
+            results = model.predict(image, conf=thresh)
             result_image = np.squeeze(results[0].plot())
             st.image(result_image, channels="BGR", use_container_width=True)
 
@@ -55,12 +53,10 @@ if input_type == "Image":
 
 else:
     uploaded_file = st.file_uploader("Choose a video...", type=["mp4", "mov", "avi"])
-
     if uploaded_file is not None:
         tfile = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
         tfile.write(uploaded_file.read())
         tfile.flush()
-
         cap = cv2.VideoCapture(tfile.name)
         width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
